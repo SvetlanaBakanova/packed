@@ -1,4 +1,10 @@
-const {src, dest, watch, parallel, series} = require("gulp");
+const {
+    src,
+    dest,
+    watch,
+    parallel,
+    series
+} = require("gulp");
 const scss = require("gulp-sass");
 const prefix = require("gulp-autoprefixer");
 const sync = require("browser-sync").create();
@@ -7,17 +13,15 @@ const uglify = require("gulp-uglify");
 
 function convertStyles() {
     return src('app/scss/style.scss')
-        .pipe(scss(
-            {
-                outputStyle: 'compressed'
-            }
-        ))
+        .pipe(scss({
+            outputStyle: 'compressed'
+        }))
         .pipe(prefix({
             cascade: true,
             grid: true,
             flex: true
         }))
-    .pipe(dest('app/css'))
+        .pipe(dest('app/css'))
 };
 
 function uglifyJS() {
@@ -48,7 +52,7 @@ function watchFiles() {
     watch('app/css/*.css').on("change", sync.reload)
 
     watch('app/js/*.js').on("change", sync.reload)
-    
+
     watch('app/js/draft/*.js', uglifyJS)
 
     watch('app/_img', imageCompressed)
@@ -61,3 +65,30 @@ exports.imageCompressed = imageCompressed;
 exports.uglifyJS = uglifyJS;
 
 exports.default = parallel(convertStyles, uglifyJS, browserSync, watchFiles);
+
+// Bulid
+function novehtml() {
+    return src('app/*.html')
+    .pipe(dest('dist'))
+}
+
+function moveCss() {
+    return src('app/css/*.css')
+    .pipe(dest('dist/css'))
+}
+
+function moveJS() {
+    return src('app/js/*.js')
+    .pipe(dest('dist/js'))
+}
+
+function moveImgs() {
+    return src('app/img/*')
+    .pipe(dest('dist/img'))
+}
+exports.novehtml = novehtml;
+exports.moveCss = moveCss;
+exports.moveJS = moveJS;
+exports.moveImgs = moveImgs;
+
+exports.bulid = series(novehtml, moveCss, moveJS, moveImgs);
