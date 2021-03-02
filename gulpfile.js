@@ -6,6 +6,8 @@ const imagemin  = require("gulp-imagemin");
 // шрифты
 const ttf2woff  = require("gulp-ttf2woff");
 const ttf2woff2 = require("gulp-ttf2woff2");
+// include
+const fi = require("gulp-file-include");
 
 // создание файлов
 const fs        = require("fs");
@@ -68,6 +70,18 @@ function browserSync() {
     });
 }
 
+// include
+const fileinclude = function () {
+    return src(["app/pages/**/*.html"])
+        .pipe(
+            fi({
+                prefix: '@@',
+                basepath: '@file'
+        })
+    )
+    .pipe(dest("app"))
+}
+
 function watchFiles() {
     watch('app/scss/**/*.scss', convertStyles);
 
@@ -77,6 +91,9 @@ function watchFiles() {
     watch('app/js/*.js').on("change", sync.reload)
 
     watch('app/_img', imageCompressed)
+
+    // include
+    watch('app/pages/**/*.html', fileinclude)
 
     // шрифты
     watch("app/fonts/*.ttf", series(convertFonts, fontsStyle))
@@ -90,7 +107,7 @@ exports.imageCompressed = imageCompressed;
 exports.struct          = createFiles;
 
 
-exports.default         = parallel(convertStyles, browserSync, watchFiles, series(convertFonts, fontsStyle));
+exports.default         = parallel(fileinclude, convertStyles, browserSync, watchFiles, series(convertFonts, fontsStyle));
 
 // Bulid
 function novehtml() {
@@ -112,10 +129,11 @@ function moveImgs() {
     return src('app/img/*')
     .pipe(dest('dist/img'))
 }
-exports.novehtml = novehtml;
-exports.moveCss  = moveCss;
-exports.moveJS   = moveJS;
-exports.moveImgs = moveImgs;
+exports.novehtml    = novehtml;
+exports.moveCss     = moveCss;
+exports.moveJS      = moveJS;
+exports.moveImgs    = moveImgs;
+exports.fileinclude = fileinclude;
 
 exports.bulid    = series(novehtml, moveCss, moveJS, moveImgs);
 

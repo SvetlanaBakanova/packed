@@ -1,1 +1,1 @@
-let box=document.querySelector(".box");box.style.border="5px solid black";
+"use strict";document.addEventListener("DOMContentLoaded",function(){let a=document.querySelector(".box");a.style.border="5px solid red";let b=document.querySelectorAll(".menu__item");b.forEach(function(a){a.innerText="Привет это Babel";});});
