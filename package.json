@@ -12,12 +12,16 @@
     "gulp-autoprefixer": "^7.0.1",
     "gulp-imagemin": "^7.1.0",
     "gulp-sass": "^4.1.0",
-    "gulp-uglify": "^3.0.2",
+    "gulp-ttf2woff": "^1.1.1",
+    "gulp-ttf2woff2": "^4.0.1",
     "node-sass": "^5.0.0"
   },
   "browserslist": [
-    "last 10 version",
-    "> 1%",
-    "IE 11"
+    "last 4 versions",
+    "not IE >= 1",
+    "not ExplorerMobile >= 1",
+    "not Edge < 40",
+    "not op_mob < 46",
+    "not bb < 10"
   ]
 }
