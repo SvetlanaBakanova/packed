@@ -1,5 +1,6 @@
 {
-  "presets": ["@babel/env"],
-  "plugins": ["@babel/plugin-transform-arrow-functions", "minify-mangle-names"],
-  "compact": true
+  "presets": ["@babel/preset-env"],
+  "plugins": ["@babel/plugin-transform-arrow-functions", "minify-mangle-names", "transform-remove-console"],
+  "compact": true,
+  "comments": false
 }

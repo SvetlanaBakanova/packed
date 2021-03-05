@@ -1,1 +1,1 @@
-let box=document.querySelector(".box");box.style.border="5px solid black";
+"use strict";document.addEventListener("DOMContentLoaded",function(){});
